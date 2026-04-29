@@ -65,6 +65,7 @@
             height: 0;
             margin: 0;
             width: 0;
+            display: none;
         }
 
         .envelope {
@@ -197,7 +198,7 @@
             image-rendering: crisp-edges;
         }
 
-        /* CUENTA REGRESIVA */
+        /* CUENTA REGRESIVA - siempre visible */
         .countdown-section {
             background: #fff0cf;
             border-radius: 40px;
@@ -208,6 +209,7 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             border: 2px solid #ffb347;
             width: 100%;
+            transition: all 0.3s ease;
         }
 
         .countdown-title {
@@ -259,18 +261,7 @@
             letter-spacing: 1px;
         }
 
-        .info-text {
-            background: #fff0cf;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-weight: bold;
-            color: #9b2e1e;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        /* BOTÓN DE WHATSAPP */
+        /* BOTÓN DE WHATSAPP - siempre visible después de abrir */
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
@@ -306,6 +297,61 @@
 
         .whatsapp-icon {
             font-size: 1.5rem;
+        }
+
+        /* Elementos que desaparecen al abrir el sobre */
+        .info-text {
+            background: #fff0cf;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #9b2e1e;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 5px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .info-text.hide-after-open {
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+        }
+
+        .buttons-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: opacity 0.3s ease;
+        }
+
+        .reset-btn {
+            background: #9b2e1e;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            margin-bottom: 5px;
+            transition: 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #c73d23;
+            transform: scale(1.02);
+        }
+
+        /* Clase para elementos que deben desaparecer completamente al abrir el sobre */
+        .remove-when-open {
+            transition: opacity 0.25s ease;
+        }
+
+        .hidden-element {
+            display: none !important;
         }
 
         @media (max-width: 500px) {
@@ -354,32 +400,6 @@
             color: rgba(0,0,0,0.5);
             text-align: center;
         }
-
-        .reset-btn {
-            background: #9b2e1e;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-family: inherit;
-            cursor: pointer;
-            font-size: 0.75rem;
-            margin-top: 8px;
-            margin-bottom: 5px;
-            transition: 0.2s;
-        }
-        .reset-btn:hover {
-            background: #c73d23;
-            transform: scale(1.02);
-        }
-
-        /* Grupo de botones */
-        .buttons-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -394,7 +414,7 @@
         </div>
     </div>
 
-    <!-- CUENTA REGRESIVA -->
+    <!-- CUENTA REGRESIVA (siempre visible) -->
     <div class="countdown-section">
         <div class="countdown-title">
             <span>🎈</span> ¡Faltan para los 2 añitos de Amely! <span>🐭</span>
@@ -428,23 +448,25 @@
         </div>
     </div>
 
-    <div class="info-text">
+    <!-- TEXTO INFORMATIVO (se eliminará al abrir el sobre) -->
+    <div class="info-text" id="infoText">
         🖱️ Haz clic en el sobre para abrir la invitación mágica 🎂🐭
     </div>
 
-    <!-- BOTÓN DE WHATSAPP PARA CONFIRMAR ASISTENCIA -->
+    <!-- BOTÓN DE WHATSAPP PARA CONFIRMAR ASISTENCIA (siempre visible después de abrir) -->
     <a href="https://wa.me/50558379422?text=¡Hola!%20Quiero%20confirmar%20mi%20asistencia%20a%20los%20dos%20añitos%20de%20Amely%20🎈🐭" 
        class="whatsapp-btn" 
        target="_blank"
-       rel="noopener noreferrer">
+       rel="noopener noreferrer"
+       id="whatsappBtn">
         <span class="whatsapp-icon">💬</span>
         Confirmar asistencia por WhatsApp
         <span>📱</span>
     </a>
 
-    <div class="buttons-group">
-        <button class="reset-btn" id="resetBtn">🔄 Reiniciar (volver a mostrar el sobre)</button>
-    </div>
+    <!-- Botón de reinicio eliminado (no aparece en la interfaz) -->
+    <!-- Grupo de botones vacío para que no haya nada extra -->
+    <div class="buttons-group" id="buttonsGroup" style="display: none;"></div>
 
     <footer>✨ Mickey Mouse Club · Jueves 28 de Mayo 2026 · 3:30 PM ✨<br>📍 Apali Nuevo, frente a Iglesia Cristo Viene</footer>
 </div>
@@ -489,23 +511,54 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ABRIR SOBRE
+    // ABRIR SOBRE Y ELIMINAR LOS ELEMENTOS NO DESEADOS (el texto "Haz clic" y cualquier rastro de reinicio)
     const envelopeScene = document.getElementById('envelopeScene');
     const invitationWrapper = document.getElementById('invitationWrapper');
-    const resetBtn = document.getElementById('resetBtn');
+    const infoText = document.getElementById('infoText');
     let opened = false;
 
     function abrirSobre() {
         if (opened) return;
         opened = true;
 
+        // Reproducir audio de Mickey
         mickeyAudio.play().catch(error => console.log("Audio no reproducido:", error));
+        
+        // Ocultar el sobre completamente (desaparece)
         envelopeScene.classList.add('hide');
+        
+        // Mostrar la invitación con animación
         invitationWrapper.classList.add('show');
+        
+        // ELIMINAR el texto de "Haz clic en el sobre..." permanentemente
+        if (infoText) {
+            infoText.style.opacity = '0';
+            infoText.style.visibility = 'hidden';
+            infoText.style.display = 'none';
+        }
+        
+        // Aseguramos que no exista ningún botón de reinicio visible (si por alguna razón se agregó en el DOM, lo eliminamos)
+        const possibleResetBtn = document.getElementById('resetBtn');
+        if (possibleResetBtn) {
+            possibleResetBtn.remove();
+        }
+        
+        // También eliminar cualquier grupo de botones que pueda contener reinicio
+        const buttonsGroup = document.getElementById('buttonsGroup');
+        if (buttonsGroup) {
+            buttonsGroup.style.display = 'none';
+        }
+        
+        // Opcional: eliminar cualquier elemento con clase .reset-btn que pudiera quedar
+        const anyReset = document.querySelector('.reset-btn');
+        if (anyReset) {
+            anyReset.remove();
+        }
     }
 
     const flap = document.getElementById('flap');
     
+    // Eventos para abrir el sobre
     envelopeScene.addEventListener('click', function(e) {
         if (envelopeScene.classList.contains('hide')) return;
         abrirSobre();
@@ -517,13 +570,7 @@
         abrirSobre();
     });
 
-    resetBtn.addEventListener('click', function() {
-        envelopeScene.classList.remove('hide');
-        invitationWrapper.classList.remove('show');
-        opened = false;
-        // Reiniciamos audio (opcional)
-        mickeyAudio.load();
-    });
+   
 </script>
 </body>
 </html>
