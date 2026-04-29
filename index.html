@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Invitación de Cumpleaños - Dixon Enoc Zúniga</title>
+    <title>Invitación de Cumpleaños - Dixon Enoc Zúniga e hijo | Globos Mickey Mouse</title>
     <style>
         * {
             margin: 0;
@@ -21,6 +21,7 @@
             font-family: 'Segoe UI', 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
             padding: 20px;
             position: relative;
+            overflow-x: hidden;
         }
 
         body::before {
@@ -47,7 +48,6 @@
             max-width: 700px;
         }
 
-        /* SOBRE */
         .envelope-scene {
             position: relative;
             width: 320px;
@@ -94,7 +94,6 @@
             box-shadow: inset 0 -2px 0 rgba(0,0,0,0.05);
         }
 
-        /* Texto cursivo sobre el sobre (en la parte frontal) */
         .invitation-label {
             position: absolute;
             bottom: 70px;
@@ -104,9 +103,9 @@
             font-family: 'Segoe UI', 'Brush Script MT', 'Comic Sans MS', cursive;
             font-style: italic;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #a1301c;
-            background: rgba(255, 240, 180, 0.85);
+            background: rgba(255, 240, 180, 0.9);
             display: inline-block;
             width: fit-content;
             margin: 0 auto;
@@ -158,43 +157,36 @@
             pointer-events: none;
         }
 
-        /* Texto cerca del sobre: burbuja de llamada a acción */
         .click-hint {
             background: #ffe9b6;
             border-radius: 60px;
-            padding: 6px 18px;
-            font-size: 0.85rem;
+            padding: 8px 22px;
+            font-size: 1rem;
             font-weight: bold;
             color: #b13b26;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 6px;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #ffb347;
-            backdrop-filter: blur(2px);
+            gap: 10px;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+            border: 2px solid #ffb347;
+            backdrop-filter: blur(3px);
             font-family: inherit;
-            animation: softPulse 1.5s infinite ease-in-out;
+            animation: softPulse 1.4s infinite ease-in-out;
             transition: all 0.3s ease;
-        }
-
-        .click-hint span {
-            font-size: 1.2rem;
         }
 
         @keyframes softPulse {
             0% { transform: scale(1); background: #ffe9b6; }
-            50% { transform: scale(1.02); background: #ffdd99; box-shadow: 0 6px 14px rgba(0,0,0,0.15);}
+            50% { transform: scale(1.02); background: #ffdd99; box-shadow: 0 8px 18px rgba(0,0,0,0.15);}
             100% { transform: scale(1); background: #ffe9b6; }
         }
 
-        /* Ocultar el mensaje de clic cuando se abre el sobre */
         .click-hint.hide-hint {
             display: none;
         }
 
-        /* INVITACIÓN */
         .invitation-wrapper {
             display: flex;
             justify-content: center;
@@ -231,10 +223,8 @@
             height: auto;
             display: block;
             border-radius: 20px 20px 16px 16px;
-            image-rendering: crisp-edges;
         }
 
-        /* CUENTA REGRESIVA - siempre visible */
         .countdown-section {
             background: #fff0cf;
             border-radius: 40px;
@@ -245,7 +235,6 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             border: 2px solid #ffb347;
             width: 100%;
-            transition: all 0.3s ease;
         }
 
         .countdown-title {
@@ -257,10 +246,6 @@
             justify-content: center;
             gap: 6px;
             margin-bottom: 8px;
-        }
-
-        .countdown-title span {
-            font-size: 1.2rem;
         }
 
         .countdown-timer {
@@ -284,7 +269,6 @@
             font-size: 1.8rem;
             font-weight: bold;
             font-family: monospace;
-            letter-spacing: 2px;
             display: block;
             line-height: 1;
         }
@@ -294,10 +278,8 @@
             text-transform: uppercase;
             font-weight: bold;
             margin-top: 4px;
-            letter-spacing: 1px;
         }
 
-        /* BOTÓN DE WHATSAPP - inicialmente oculto, aparece tras abrir sobre */
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
@@ -316,9 +298,6 @@
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
             border: none;
             cursor: pointer;
-            font-family: inherit;
-            width: auto;
-            min-width: 220px;
             opacity: 0;
             transform: scale(0.9);
             pointer-events: none;
@@ -333,18 +312,8 @@
         .whatsapp-btn:hover {
             background: #128C7E;
             transform: scale(1.02);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
 
-        .whatsapp-btn:active {
-            transform: scale(0.98);
-        }
-
-        .whatsapp-icon {
-            font-size: 1.5rem;
-        }
-
-        /* Footer y misc */
         footer {
             margin-top: 8px;
             font-size: 10px;
@@ -352,95 +321,185 @@
             text-align: center;
         }
 
-        @media (max-width: 500px) {
-            .envelope-scene {
-                width: 270px;
-                height: 186px;
+        /* === GLOBO CON FORMA DE MICKEY MOUSE === */
+        .mickey-balloon {
+            position: fixed;
+            bottom: -120px;
+            pointer-events: none;
+            z-index: 9999;
+            filter: drop-shadow(3px 8px 15px rgba(0,0,0,0.3));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: floatUp linear forwards;
+        }
+
+        .mickey-shape {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mickey-head {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mickey-ear-left {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            top: -15px;
+            left: -18px;
+            z-index: 0;
+        }
+
+        .mickey-ear-right {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            top: -15px;
+            right: -18px;
+            z-index: 0;
+        }
+
+        .balloon-string {
+            width: 2px;
+            height: 35px;
+            background: linear-gradient(180deg, #8B5A2B, #5a3a1a);
+            margin-top: 5px;
+            border-radius: 1px;
+        }
+
+        /* Reflejos de luz */
+        .mickey-head::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .mickey-ear-left::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .mickey-ear-right::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* ===== COLORES DE LOS GLOBOS ===== */
+        /* Rojo */
+        .balloon-red .mickey-head,
+        .balloon-red .mickey-ear-left,
+        .balloon-red .mickey-ear-right {
+            background: radial-gradient(circle at 35% 30%, #ff5e5e, #cc1111);
+        }
+        /* Amarillo */
+        .balloon-yellow .mickey-head,
+        .balloon-yellow .mickey-ear-left,
+        .balloon-yellow .mickey-ear-right {
+            background: radial-gradient(circle at 35% 30%, #fff080, #e6b800);
+        }
+        /* Negro */
+        .balloon-black .mickey-head,
+        .balloon-black .mickey-ear-left,
+        .balloon-black .mickey-ear-right {
+            background: radial-gradient(circle at 35% 30%, #5a5a5a, #1a1a1a);
+        }
+        /* BLANCO */
+        .balloon-white .mickey-head,
+        .balloon-white .mickey-ear-left,
+        .balloon-white .mickey-ear-right {
+            background: radial-gradient(circle at 35% 30%, #ffffff, #e0e0e0);
+        }
+        /* ROSADO */
+        .balloon-pink .mickey-head,
+        .balloon-pink .mickey-ear-left,
+        .balloon-pink .mickey-ear-right {
+            background: radial-gradient(circle at 35% 30%, #ffb6c1, #ff69b4);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
             }
-            .seal {
-                width: 30px;
-                height: 30px;
-                font-size: 22px;
-                bottom: 12px;
+            70% {
+                opacity: 1;
             }
-            .invitation-label {
-                font-size: 0.75rem;
-                bottom: 65px;
-                white-space: nowrap;
-                padding: 2px 10px;
+            100% {
+                transform: translateY(-120vh) rotate(8deg);
+                opacity: 0;
             }
-            .click-hint {
-                font-size: 0.7rem;
-                padding: 4px 14px;
-                gap: 5px;
-            }
-            .time-box {
-                min-width: 55px;
-                padding: 6px 5px;
-            }
-            .time-number {
-                font-size: 1.4rem;
-            }
-            .time-label {
-                font-size: 0.6rem;
-            }
-            .countdown-title {
-                font-size: 0.85rem;
-            }
-            .countdown-section {
-                margin-top: 5px;
-            }
-            .whatsapp-btn {
-                padding: 10px 18px;
-                font-size: 0.85rem;
-                min-width: 180px;
-            }
+        }
+
+        @media (max-width: 550px) {
+            .envelope-scene { width: 270px; height: 186px; }
+            .invitation-label { font-size: 0.7rem; bottom: 65px; padding: 2px 8px; white-space: nowrap; }
+            .click-hint { font-size: 0.75rem; padding: 5px 16px; gap: 6px; }
+            .time-box { min-width: 55px; padding: 6px 5px; }
+            .time-number { font-size: 1.4rem; }
+            
+            .mickey-head { width: 55px; height: 55px; }
+            .mickey-ear-left, .mickey-ear-right { width: 33px; height: 33px; top: -12px; }
+            .mickey-ear-left { left: -14px; }
+            .mickey-ear-right { right: -14px; }
+            .balloon-string { height: 25px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- SOBRE CON TEXTO CURSIVO "Invitación a Dixon Enoc Zúniga" -->
     <div class="envelope-scene" id="envelopeScene">
         <div class="envelope">
             <div class="flap" id="flap"></div>
             <div class="seal">🐭</div>
-            <div class="invitation-label">✨ Invitación a Dixon Enoc Zúniga ✨</div>
+            <div class="invitation-label">✨ Dixon Enoc Zúniga e hijo ✨</div>
         </div>
     </div>
 
-    <!-- MENSAJE CERCA DEL SOBRE (burbuja con indicación) -->
     <div class="click-hint" id="clickHint">
-        <span>👉</span> ¡Haz clic en el sobre para descubrir la invitación! <span>🎁</span>
+        <span>🎈</span> Dixon, toca el sobre <span>👉</span>
     </div>
 
-    <!-- CUENTA REGRESIVA (siempre visible) -->
     <div class="countdown-section">
         <div class="countdown-title">
             <span>🎈</span> ¡Faltan para los 2 añitos de Amely! <span>🐭</span>
         </div>
         <div class="countdown-timer" id="countdownTimer">
-            <div class="time-box">
-                <span class="time-number" id="days">00</span>
-                <span class="time-label">Días</span>
-            </div>
-            <div class="time-box">
-                <span class="time-number" id="hours">00</span>
-                <span class="time-label">Horas</span>
-            </div>
-            <div class="time-box">
-                <span class="time-number" id="minutes">00</span>
-                <span class="time-label">Minutos</span>
-            </div>
-            <div class="time-box">
-                <span class="time-number" id="seconds">00</span>
-                <span class="time-label">Segundos</span>
-            </div>
+            <div class="time-box"><span class="time-number" id="days">00</span><span class="time-label">Días</span></div>
+            <div class="time-box"><span class="time-number" id="hours">00</span><span class="time-label">Horas</span></div>
+            <div class="time-box"><span class="time-number" id="minutes">00</span><span class="time-label">Minutos</span></div>
+            <div class="time-box"><span class="time-number" id="seconds">00</span><span class="time-label">Segundos</span></div>
         </div>
     </div>
 
-    <!-- INVITACIÓN (oculta hasta abrir el sobre) -->
     <div class="invitation-wrapper" id="invitationWrapper">
         <div class="invitation-card">
             <img src="https://i.ibb.co/yTgHZpH/Copia-de-Mickey-Modelo-13.png" 
@@ -449,34 +508,27 @@
         </div>
     </div>
 
-    <!-- BOTÓN DE WHATSAPP (inicialmente oculto, aparecerá solo cuando se abra el sobre) -->
     <a href="https://wa.me/50558379422?text=¡Hola!%20Quiero%20confirmar%20mi%20asistencia%20a%20los%20dos%20añitos%20de%20Amely%20🎈🐭" 
-       class="whatsapp-btn" 
-       target="_blank"
-       rel="noopener noreferrer"
-       id="whatsappBtn">
-        <span class="whatsapp-icon">💬</span>
-        Confirmar asistencia por WhatsApp
-        <span>📱</span>
+       class="whatsapp-btn" target="_blank" id="whatsappBtn">
+        <span>💬</span> Confirmar asistencia por WhatsApp <span>📱</span>
     </a>
 
     <footer>✨ Mickey Mouse Club · Jueves 28 de Mayo 2026 · 3:30 PM ✨<br>📍 Apali Nuevo, frente a Iglesia Cristo Viene</footer>
 </div>
 
 <script>
-    // FECHA DEL EVENTO: 28 de Mayo 2026 - 3:30 PM
+    // FECHA DEL EVENTO
     const targetDate = new Date(2026, 4, 28, 15, 30, 0);
 
-    // 🎵 AUDIO DE MICKEY MOUSE
+    // SONIDO MICKEY
     const mickeyAudio = new Audio('https://www.soundjay.com/misc/sounds/mickey-mouse-laugh-02.mp3');
     mickeyAudio.load();
     mickeyAudio.volume = 0.8;
 
-    // ⏱️ CUENTA REGRESIVA
+    // CUENTA REGRESIVA
     function updateCountdown() {
         const now = new Date().getTime();
         const distance = targetDate.getTime() - now;
-
         if (distance < 0) {
             document.getElementById('days').innerHTML = "00";
             document.getElementById('hours').innerHTML = "00";
@@ -488,60 +540,155 @@
             }
             return;
         }
-
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
         document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
         document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
         document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
         document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Elementos del DOM
+    // Elementos DOM
     const envelopeScene = document.getElementById('envelopeScene');
     const invitationWrapper = document.getElementById('invitationWrapper');
     const whatsappBtn = document.getElementById('whatsappBtn');
     const clickHint = document.getElementById('clickHint');
     const flap = document.getElementById('flap');
-    
     let opened = false;
+    let balloonInterval = null;
 
-    // Función para abrir el sobre y revelar invitación + botón WhatsApp (y ocultar el mensaje de clic)
+    // Colores disponibles: rojo, amarillo, negro, blanco, rosado
+    const colorClasses = ['balloon-red', 'balloon-yellow', 'balloon-black', 'balloon-white', 'balloon-pink'];
+
+    // Crear un globo con FORMA de Mickey Mouse
+    function createMickeyShapedBalloon() {
+        const balloonContainer = document.createElement('div');
+        balloonContainer.classList.add('mickey-balloon');
+        
+        // Seleccionar color aleatorio de los 5 disponibles
+        const randomColor = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+        balloonContainer.classList.add(randomColor);
+        
+        // Contenedor de la forma
+        const shapeContainer = document.createElement('div');
+        shapeContainer.className = 'mickey-shape';
+        
+        // Cabeza principal
+        const head = document.createElement('div');
+        head.className = 'mickey-head';
+        
+        // Oreja izquierda
+        const earLeft = document.createElement('div');
+        earLeft.className = 'mickey-ear-left';
+        
+        // Oreja derecha
+        const earRight = document.createElement('div');
+        earRight.className = 'mickey-ear-right';
+        
+        shapeContainer.appendChild(earLeft);
+        shapeContainer.appendChild(earRight);
+        shapeContainer.appendChild(head);
+        
+        // Hilo
+        const string = document.createElement('div');
+        string.className = 'balloon-string';
+        
+        balloonContainer.appendChild(shapeContainer);
+        balloonContainer.appendChild(string);
+        
+        // Tamaño aleatorio para variedad
+        const scale = 0.7 + Math.random() * 0.8;
+        const headSize = 70 * scale;
+        const earSize = 42 * scale;
+        
+        head.style.width = headSize + 'px';
+        head.style.height = headSize + 'px';
+        
+        const leftEar = balloonContainer.querySelector('.mickey-ear-left');
+        const rightEar = balloonContainer.querySelector('.mickey-ear-right');
+        if (leftEar) {
+            leftEar.style.width = earSize + 'px';
+            leftEar.style.height = earSize + 'px';
+            leftEar.style.left = -(earSize * 0.48) + 'px';
+            leftEar.style.top = -(earSize * 0.32) + 'px';
+        }
+        if (rightEar) {
+            rightEar.style.width = earSize + 'px';
+            rightEar.style.height = earSize + 'px';
+            rightEar.style.right = -(earSize * 0.48) + 'px';
+            rightEar.style.top = -(earSize * 0.32) + 'px';
+        }
+        
+        // Posición horizontal y animación aleatoria
+        const leftPos = Math.random() * 100;
+        const duration = 4 + Math.random() * 6;
+        const delay = Math.random() * 0.7;
+        const rotateStart = (Math.random() - 0.5) * 12;
+        
+        balloonContainer.style.left = leftPos + '%';
+        balloonContainer.style.animationDuration = duration + 's';
+        balloonContainer.style.animationDelay = delay + 's';
+        balloonContainer.style.transform = `rotate(${rotateStart}deg)`;
+        
+        document.body.appendChild(balloonContainer);
+        
+        // Eliminar después de la animación
+        setTimeout(() => {
+            if (balloonContainer && balloonContainer.parentNode) {
+                balloonContainer.remove();
+            }
+        }, (duration + delay) * 1000);
+    }
+    
+    // Lanzar oleada de globos con forma de Mickey Mouse (todos los colores)
+    function launchMickeyBalloons() {
+        let count = 0;
+        const totalBalloons = 38;
+        
+        if (balloonInterval) clearInterval(balloonInterval);
+        
+        balloonInterval = setInterval(() => {
+            if (count >= totalBalloons) {
+                clearInterval(balloonInterval);
+                return;
+            }
+            const balloonsPerWave = Math.min(2, totalBalloons - count);
+            for (let i = 0; i < balloonsPerWave; i++) {
+                createMickeyShapedBalloon();
+                count++;
+            }
+        }, 160);
+    }
+    
+    // ABRIR SOBRE
     function abrirSobre() {
         if (opened) return;
         opened = true;
-
-        // Reproducir sonido de Mickey Mouse
-        mickeyAudio.play().catch(error => console.log("Audio no reproducido:", error));
         
-        // 1. Ocultar el sobre completamente (desaparece)
+        // Reproducir sonido de Mickey
+        mickeyAudio.play().catch(error => console.log("Audio necesita interacción del usuario"));
+        
+        // Lanzar globos con FORMA de Mickey Mouse (colores: rojo, amarillo, negro, blanco, rosado)
+        launchMickeyBalloons();
+        
+        // Ocultar sobre y mensaje
         envelopeScene.classList.add('hide');
+        if (clickHint) clickHint.classList.add('hide-hint');
         
-        // 2. Ocultar el mensaje "Haz clic en el sobre" que está cerca del mismo
-        if (clickHint) {
-            clickHint.classList.add('hide-hint');
-        }
-        
-        // 3. Mostrar la invitación con animación
+        // Mostrar invitación y botón WhatsApp
         invitationWrapper.classList.add('show');
+        whatsappBtn.classList.add('show-whatsapp');
         
-        // 4. Mostrar el botón de WhatsApp (hasta ahora invisible)
-        if (whatsappBtn) {
-            whatsappBtn.classList.add('show-whatsapp');
-        }
-        
-        // Aseguramos que ningún elemento de reinicio aparezca (por si existiera alguno, pero no existe en el DOM)
+        // Limpiar residuos
         const possibleReset = document.querySelector('.reset-btn');
         if (possibleReset) possibleReset.remove();
     }
-
-    // Eventos para abrir el sobre
+    
+    // Eventos de clic
     envelopeScene.addEventListener('click', function(e) {
         if (envelopeScene.classList.contains('hide')) return;
         abrirSobre();
@@ -553,17 +700,11 @@
         abrirSobre();
     });
     
-    // No se incluye ningún botón de reinicio. Una vez abierto, el sobre y mensaje de clic desaparecen para siempre.
-    // El botón de WhatsApp aparece justo después de abrir la invitación.
-    // Todo el flujo es limpio: solo cuenta regresiva, invitación y confirmación por WhatsApp.
-    
-    // Pequeño detalle: si alguien intenta hacer clic en el área oculta no pasará nada, 
-    // pero la experiencia es que tras abrir ya tendrá todos los elementos necesarios.
-    
-    // También removemos cualquier texto que pudiera quedar flotando (como el antiguo info-text)
-    // Aseguramos que no haya residuos.
+    // Eliminar texto obsoleto
     const oldInfo = document.querySelector('.info-text');
     if (oldInfo) oldInfo.remove();
+    
+    console.log("🎈✨ Globos con FORMA de Mickey Mouse - Colores: rojo, amarillo, negro, BLANCO y ROSADO");
 </script>
 </body>
 </html>
