@@ -52,7 +52,7 @@
             position: relative;
             width: 320px;
             height: 220px;
-            margin: 10px auto 0 auto;
+            margin: 10px auto 5px auto;
             cursor: pointer;
             transition: all 0.5s ease;
         }
@@ -158,6 +158,42 @@
             pointer-events: none;
         }
 
+        /* Texto cerca del sobre: burbuja de llamada a acción */
+        .click-hint {
+            background: #ffe9b6;
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #b13b26;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #ffb347;
+            backdrop-filter: blur(2px);
+            font-family: inherit;
+            animation: softPulse 1.5s infinite ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .click-hint span {
+            font-size: 1.2rem;
+        }
+
+        @keyframes softPulse {
+            0% { transform: scale(1); background: #ffe9b6; }
+            50% { transform: scale(1.02); background: #ffdd99; box-shadow: 0 6px 14px rgba(0,0,0,0.15);}
+            100% { transform: scale(1); background: #ffe9b6; }
+        }
+
+        /* Ocultar el mensaje de clic cuando se abre el sobre */
+        .click-hint.hide-hint {
+            display: none;
+        }
+
         /* INVITACIÓN */
         .invitation-wrapper {
             display: flex;
@@ -261,7 +297,7 @@
             letter-spacing: 1px;
         }
 
-        /* BOTÓN DE WHATSAPP - siempre visible después de abrir */
+        /* BOTÓN DE WHATSAPP - inicialmente oculto, aparece tras abrir sobre */
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
@@ -283,6 +319,15 @@
             font-family: inherit;
             width: auto;
             min-width: 220px;
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+
+        .whatsapp-btn.show-whatsapp {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
         }
 
         .whatsapp-btn:hover {
@@ -299,59 +344,12 @@
             font-size: 1.5rem;
         }
 
-        /* Elementos que desaparecen al abrir el sobre */
-        .info-text {
-            background: #fff0cf;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-weight: bold;
-            color: #9b2e1e;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 5px;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .info-text.hide-after-open {
-            opacity: 0;
-            visibility: hidden;
-            display: none;
-        }
-
-        .buttons-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            transition: opacity 0.3s ease;
-        }
-
-        .reset-btn {
-            background: #9b2e1e;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-family: inherit;
-            cursor: pointer;
-            font-size: 0.75rem;
+        /* Footer y misc */
+        footer {
             margin-top: 8px;
-            margin-bottom: 5px;
-            transition: 0.2s;
-        }
-
-        .reset-btn:hover {
-            background: #c73d23;
-            transform: scale(1.02);
-        }
-
-        /* Clase para elementos que deben desaparecer completamente al abrir el sobre */
-        .remove-when-open {
-            transition: opacity 0.25s ease;
-        }
-
-        .hidden-element {
-            display: none !important;
+            font-size: 10px;
+            color: rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         @media (max-width: 500px) {
@@ -370,6 +368,11 @@
                 bottom: 65px;
                 white-space: nowrap;
                 padding: 2px 10px;
+            }
+            .click-hint {
+                font-size: 0.7rem;
+                padding: 4px 14px;
+                gap: 5px;
             }
             .time-box {
                 min-width: 55px;
@@ -393,25 +396,23 @@
                 min-width: 180px;
             }
         }
-
-        footer {
-            margin-top: 8px;
-            font-size: 10px;
-            color: rgba(0,0,0,0.5);
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- SOBRE CON TEXTO CURSIVO "Invitación a Dixon Enoc Zuniga" -->
+    <!-- SOBRE CON TEXTO CURSIVO "Invitación a Dixon Enoc Zúniga" -->
     <div class="envelope-scene" id="envelopeScene">
         <div class="envelope">
             <div class="flap" id="flap"></div>
             <div class="seal">🐭</div>
             <div class="invitation-label">✨ Invitación a Dixon Enoc Zúniga ✨</div>
         </div>
+    </div>
+
+    <!-- MENSAJE CERCA DEL SOBRE (burbuja con indicación) -->
+    <div class="click-hint" id="clickHint">
+        <span>👉</span> ¡Haz clic en el sobre para descubrir la invitación! <span>🎁</span>
     </div>
 
     <!-- CUENTA REGRESIVA (siempre visible) -->
@@ -448,12 +449,7 @@
         </div>
     </div>
 
-    <!-- TEXTO INFORMATIVO (se eliminará al abrir el sobre) -->
-    <div class="info-text" id="infoText">
-        🖱️ Haz clic en el sobre para abrir la invitación mágica 🎂🐭
-    </div>
-
-    <!-- BOTÓN DE WHATSAPP PARA CONFIRMAR ASISTENCIA (siempre visible después de abrir) -->
+    <!-- BOTÓN DE WHATSAPP (inicialmente oculto, aparecerá solo cuando se abra el sobre) -->
     <a href="https://wa.me/50558379422?text=¡Hola!%20Quiero%20confirmar%20mi%20asistencia%20a%20los%20dos%20añitos%20de%20Amely%20🎈🐭" 
        class="whatsapp-btn" 
        target="_blank"
@@ -463,10 +459,6 @@
         Confirmar asistencia por WhatsApp
         <span>📱</span>
     </a>
-
-    <!-- Botón de reinicio eliminado (no aparece en la interfaz) -->
-    <!-- Grupo de botones vacío para que no haya nada extra -->
-    <div class="buttons-group" id="buttonsGroup" style="display: none;"></div>
 
     <footer>✨ Mickey Mouse Club · Jueves 28 de Mayo 2026 · 3:30 PM ✨<br>📍 Apali Nuevo, frente a Iglesia Cristo Viene</footer>
 </div>
@@ -511,53 +503,44 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ABRIR SOBRE Y ELIMINAR LOS ELEMENTOS NO DESEADOS (el texto "Haz clic" y cualquier rastro de reinicio)
+    // Elementos del DOM
     const envelopeScene = document.getElementById('envelopeScene');
     const invitationWrapper = document.getElementById('invitationWrapper');
-    const infoText = document.getElementById('infoText');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const clickHint = document.getElementById('clickHint');
+    const flap = document.getElementById('flap');
+    
     let opened = false;
 
+    // Función para abrir el sobre y revelar invitación + botón WhatsApp (y ocultar el mensaje de clic)
     function abrirSobre() {
         if (opened) return;
         opened = true;
 
-        // Reproducir audio de Mickey
+        // Reproducir sonido de Mickey Mouse
         mickeyAudio.play().catch(error => console.log("Audio no reproducido:", error));
         
-        // Ocultar el sobre completamente (desaparece)
+        // 1. Ocultar el sobre completamente (desaparece)
         envelopeScene.classList.add('hide');
         
-        // Mostrar la invitación con animación
+        // 2. Ocultar el mensaje "Haz clic en el sobre" que está cerca del mismo
+        if (clickHint) {
+            clickHint.classList.add('hide-hint');
+        }
+        
+        // 3. Mostrar la invitación con animación
         invitationWrapper.classList.add('show');
         
-        // ELIMINAR el texto de "Haz clic en el sobre..." permanentemente
-        if (infoText) {
-            infoText.style.opacity = '0';
-            infoText.style.visibility = 'hidden';
-            infoText.style.display = 'none';
+        // 4. Mostrar el botón de WhatsApp (hasta ahora invisible)
+        if (whatsappBtn) {
+            whatsappBtn.classList.add('show-whatsapp');
         }
         
-        // Aseguramos que no exista ningún botón de reinicio visible (si por alguna razón se agregó en el DOM, lo eliminamos)
-        const possibleResetBtn = document.getElementById('resetBtn');
-        if (possibleResetBtn) {
-            possibleResetBtn.remove();
-        }
-        
-        // También eliminar cualquier grupo de botones que pueda contener reinicio
-        const buttonsGroup = document.getElementById('buttonsGroup');
-        if (buttonsGroup) {
-            buttonsGroup.style.display = 'none';
-        }
-        
-        // Opcional: eliminar cualquier elemento con clase .reset-btn que pudiera quedar
-        const anyReset = document.querySelector('.reset-btn');
-        if (anyReset) {
-            anyReset.remove();
-        }
+        // Aseguramos que ningún elemento de reinicio aparezca (por si existiera alguno, pero no existe en el DOM)
+        const possibleReset = document.querySelector('.reset-btn');
+        if (possibleReset) possibleReset.remove();
     }
 
-    const flap = document.getElementById('flap');
-    
     // Eventos para abrir el sobre
     envelopeScene.addEventListener('click', function(e) {
         if (envelopeScene.classList.contains('hide')) return;
@@ -569,8 +552,18 @@
         if (envelopeScene.classList.contains('hide')) return;
         abrirSobre();
     });
-
-   
+    
+    // No se incluye ningún botón de reinicio. Una vez abierto, el sobre y mensaje de clic desaparecen para siempre.
+    // El botón de WhatsApp aparece justo después de abrir la invitación.
+    // Todo el flujo es limpio: solo cuenta regresiva, invitación y confirmación por WhatsApp.
+    
+    // Pequeño detalle: si alguien intenta hacer clic en el área oculta no pasará nada, 
+    // pero la experiencia es que tras abrir ya tendrá todos los elementos necesarios.
+    
+    // También removemos cualquier texto que pudiera quedar flotando (como el antiguo info-text)
+    // Aseguramos que no haya residuos.
+    const oldInfo = document.querySelector('.info-text');
+    if (oldInfo) oldInfo.remove();
 </script>
 </body>
 </html>
