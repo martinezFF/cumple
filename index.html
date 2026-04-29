@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Invitación de Cumpleaños - Dixon Enoc Zúniga</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f7e6c4 0%, #f0d9a8 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.08) 2%, transparent 2.5%);
+            background-size: 35px 35px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* SOBRE */
+        .envelope-scene {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            margin: 10px auto 0 auto;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .envelope-scene.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+            pointer-events: none;
+            height: 0;
+            margin: 0;
+            width: 0;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #f7e05e;
+            border-radius: 12px 12px 8px 8px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,200,0.7);
+            overflow: hidden;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #efd43a;
+            clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
+            z-index: 15;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: top;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.05);
+        }
+
+        /* Texto cursivo sobre el sobre (en la parte frontal) */
+        .invitation-label {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Segoe UI', 'Brush Script MT', 'Comic Sans MS', cursive;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #a1301c;
+            background: rgba(255, 240, 180, 0.85);
+            display: inline-block;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 4px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+            z-index: 20;
+            pointer-events: none;
+            white-space: nowrap;
+            transform: translateX(-50%);
+            left: 50%;
+            bottom: 85px;
+        }
+
+        .envelope:before {
+            content: "❤️";
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            letter-spacing: 8px;
+            color: #c73d23;
+            opacity: 0.7;
+            z-index: 5;
+        }
+
+        .seal {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 38px;
+            height: 38px;
+            background: #c73d23;
+            border-radius: 50%;
+            z-index: 20;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            font-family: monospace;
+            color: #ffdd99;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+
+        /* INVITACIÓN */
+        .invitation-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease 0.2s;
+            pointer-events: none;
+            margin-top: 0;
+        }
+
+        .invitation-wrapper.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .invitation-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+            text-align: center;
+            border: 4px solid #ffb347;
+            background: #fff9ef;
+            max-width: 100%;
+            width: 100%;
+            cursor: default;
+        }
+
+        .invitation-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px 20px 16px 16px;
+            image-rendering: crisp-edges;
+        }
+
+        /* CUENTA REGRESIVA */
+        .countdown-section {
+            background: #fff0cf;
+            border-radius: 40px;
+            padding: 12px 15px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            border: 2px solid #ffb347;
+            width: 100%;
+        }
+
+        .countdown-title {
+            font-size: 1rem;
+            color: #9b2e1e;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .countdown-title span {
+            font-size: 1.2rem;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: #9b2e1e;
+            color: white;
+            padding: 8px 8px;
+            border-radius: 16px;
+            min-width: 65px;
+            text-align: center;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.2), 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .time-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+            display: block;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .info-text {
+            background: #fff0cf;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #9b2e1e;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* BOTÓN DE WHATSAPP */
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            width: auto;
+            min-width: 220px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .whatsapp-btn:active {
+            transform: scale(0.98);
+        }
+
+        .whatsapp-icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 500px) {
+            .envelope-scene {
+                width: 270px;
+                height: 186px;
+            }
+            .seal {
+                width: 30px;
+                height: 30px;
+                font-size: 22px;
+                bottom: 12px;
+            }
+            .invitation-label {
+                font-size: 0.75rem;
+                bottom: 65px;
+                white-space: nowrap;
+                padding: 2px 10px;
+            }
+            .time-box {
+                min-width: 55px;
+                padding: 6px 5px;
+            }
+            .time-number {
+                font-size: 1.4rem;
+            }
+            .time-label {
+                font-size: 0.6rem;
+            }
+            .countdown-title {
+                font-size: 0.85rem;
+            }
+            .countdown-section {
+                margin-top: 5px;
+            }
+            .whatsapp-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+                min-width: 180px;
+            }
+        }
+
+        footer {
+            margin-top: 8px;
+            font-size: 10px;
+            color: rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .reset-btn {
+            background: #9b2e1e;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            margin-bottom: 5px;
+            transition: 0.2s;
+        }
+        .reset-btn:hover {
+            background: #c73d23;
+            transform: scale(1.02);
+        }
+
+        /* Grupo de botones */
+        .buttons-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- SOBRE CON TEXTO CURSIVO "Invitación a Dixon Enoc Zuniga" -->
+    <div class="envelope-scene" id="envelopeScene">
+        <div class="envelope">
+            <div class="flap" id="flap"></div>
+            <div class="seal">🐭</div>
+            <div class="invitation-label">✨ Invitación a Dixon Enoc Zúniga ✨</div>
+        </div>
+    </div>
+
+    <!-- CUENTA REGRESIVA -->
+    <div class="countdown-section">
+        <div class="countdown-title">
+            <span>🎈</span> ¡Faltan para los 2 añitos de Amely! <span>🐭</span>
+        </div>
+        <div class="countdown-timer" id="countdownTimer">
+            <div class="time-box">
+                <span class="time-number" id="days">00</span>
+                <span class="time-label">Días</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="hours">00</span>
+                <span class="time-label">Horas</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="minutes">00</span>
+                <span class="time-label">Minutos</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="seconds">00</span>
+                <span class="time-label">Segundos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVITACIÓN (oculta hasta abrir el sobre) -->
+    <div class="invitation-wrapper" id="invitationWrapper">
+        <div class="invitation-card">
+            <img src="https://i.ibb.co/yTgHZpH/Copia-de-Mickey-Modelo-13.png" 
+                 alt="Invitación de Cumpleaños Amely 2 años - Mickey Mouse"
+                 style="width:100%; height:auto;">
+        </div>
+    </div>
+
+    <div class="info-text">
+        🖱️ Haz clic en el sobre para abrir la invitación mágica 🎂🐭
+    </div>
+
+    <!-- BOTÓN DE WHATSAPP PARA CONFIRMAR ASISTENCIA -->
+    <a href="https://wa.me/50558379422?text=¡Hola!%20Quiero%20confirmar%20mi%20asistencia%20a%20los%20dos%20añitos%20de%20Amely%20🎈🐭" 
+       class="whatsapp-btn" 
+       target="_blank"
+       rel="noopener noreferrer">
+        <span class="whatsapp-icon">💬</span>
+        Confirmar asistencia por WhatsApp
+        <span>📱</span>
+    </a>
+
+    <div class="buttons-group">
+        <button class="reset-btn" id="resetBtn">🔄 Reiniciar (volver a mostrar el sobre)</button>
+    </div>
+
+    <footer>✨ Mickey Mouse Club · Jueves 28 de Mayo 2026 · 3:30 PM ✨<br>📍 Apali Nuevo, frente a Iglesia Cristo Viene</footer>
+</div>
+
+<script>
+    // FECHA DEL EVENTO: 28 de Mayo 2026 - 3:30 PM
+    const targetDate = new Date(2026, 4, 28, 15, 30, 0);
+
+    // 🎵 AUDIO DE MICKEY MOUSE
+    const mickeyAudio = new Audio('https://www.soundjay.com/misc/sounds/mickey-mouse-laugh-02.mp3');
+    mickeyAudio.load();
+    mickeyAudio.volume = 0.8;
+
+    // ⏱️ CUENTA REGRESIVA
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate.getTime() - now;
+
+        if (distance < 0) {
+            document.getElementById('days').innerHTML = "00";
+            document.getElementById('hours').innerHTML = "00";
+            document.getElementById('minutes').innerHTML = "00";
+            document.getElementById('seconds').innerHTML = "00";
+            const titleDiv = document.querySelector('.countdown-title');
+            if (titleDiv && !titleDiv.innerHTML.includes('🎉')) {
+                titleDiv.innerHTML = '<span>🎉🎂</span> ¡YA LLEGÓ EL GRAN DÍA! <span>🐭🎈</span>';
+            }
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
+        document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
+        document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ABRIR SOBRE
+    const envelopeScene = document.getElementById('envelopeScene');
+    const invitationWrapper = document.getElementById('invitationWrapper');
+    const resetBtn = document.getElementById('resetBtn');
+    let opened = false;
+
+    function abrirSobre() {
+        if (opened) return;
+        opened = true;
+
+        mickeyAudio.play().catch(error => console.log("Audio no reproducido:", error));
+        envelopeScene.classList.add('hide');
+        invitationWrapper.classList.add('show');
+    }
+
+    const flap = document.getElementById('flap');
+    
+    envelopeScene.addEventListener('click', function(e) {
+        if (envelopeScene.classList.contains('hide')) return;
+        abrirSobre();
+    });
+    
+    flap.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (envelopeScene.classList.contains('hide')) return;
+        abrirSobre();
+    });
+
+    resetBtn.addEventListener('click', function() {
+        envelopeScene.classList.remove('hide');
+        invitationWrapper.classList.remove('show');
+        opened = false;
+        // Reiniciamos audio (opcional)
+        mickeyAudio.load();
+    });
+</script>
+</body>
+</html>
